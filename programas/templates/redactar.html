@@ -2,38 +2,32 @@
 
 {% block body %}
 <script type="text/javascript">
-pais = new google.maps.LatLng (-7.710992, -65.742188);
-zoom = 2;
 
+$(function() {
+    initialize(-38.416097, -63.616671999999994);
+});
 
-var myOptions = {
-    zoom: zoom,
-    center: pais,
-    mapTypeId: google.maps.MapTypeId.ROADMAP
+function initialize(latitud, longitud) {
+        var mapOptions = {
+            zoom: 4,
+            center: new google.maps.LatLng(latitud, longitud),
+            mapTypeId: google.maps.MapTypeId.ROADMAP }
+        var map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+        var image = '{{ STATIC_URL }}img/logo.png';
+        var myLatLng = new google.maps.LatLng(latitud, longitud);
+        var programa_marker = new google.maps.Marker({
+                            position: myLatLng,
+                            map: map,
+                            icon: image,
+                            draggable: true
+                            });
+
+        google.maps.event.addListener(programa_marker, "dragend", function(event) {
+            var point = programa_marker.getPosition();
+            $('#lat').val(point.lat());
+            $('#lon').val(point.lng());
+        });
 }
-
-map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-
-$.ajax({
-    contentType: "application/json;charset=utf-8",
-    url: "historias",
-    dataType: "json",
-    success: function (dataJSON) {
-
-    jQuery.each(dataJSON, function() {   
-    var marker = new google.maps.Marker (
-        { position: new google.maps.LatLng (this.lat, this.long), 
-          map:map,  
-          icon: 'https://www.appsnatura.net/natura_amo/web/images/icomaps.png'});
-
-    markers.push(marker);
-    historias[marker.__gm_id] = this;
-
-    })
-
-    addEventListeners();
-    }
-
 </script>
 <form action="" method="post" id="programa_form">
     {% csrf_token %}
@@ -58,4 +52,6 @@ $.ajax({
 
     <input type="submit" name="submit" id="submitleft" class="button" value="Enviar" tabindex="5" />
 </form>
+
+    <div id="map_canvas" style="width: 300px; height:300px"></div>
 {% endblock %}

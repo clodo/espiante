@@ -1,6 +1,7 @@
 from django.shortcuts import render_to_response
 from django.views.generic import ListView
 from django.template import RequestContext
+from django.http import HttpResponseRedirect
 from programas.models import Programa, Perfil
 from forms import ProgramaForm
 
@@ -23,13 +24,15 @@ def redactar(request, programa_id=None):
     if request.method == "POST":
         form = ProgramaForm(request.POST)
         if form.is_valid():
-            template = 'redactar_gracias.html'
             content = form.cleaned_data
+            return HttpResponseRedirect('/gracias/')
     else:
         form = ProgramaForm()
 
     return render_to_response(template, { 'form' : form }, context_instance = RequestContext(request))
 
+def redactar_gracias(request):
+    return render_to_response('redactar_gracias.html', context_instance = RequestContext(request))
 
 class ProgramasListView(ListView):
     context_object_name = "programas"
