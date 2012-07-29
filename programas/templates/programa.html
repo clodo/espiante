@@ -5,7 +5,10 @@
 $(function() {
     $("#slides").slides({
         effect: 'slide, fade',
-        play: 5000
+        play: 5000,
+        generateNextPrev: false,
+        pagination: false,
+        generatePagination: false
     });
 
     initialize({{ programa.lat }}, {{ programa.lon }});
@@ -27,7 +30,59 @@ function initialize(latitud, longitud) {
                             });
 }
 </script>
-<div id="programa_container">
+<div class="row" style="margin-top: 20px;">
+  <div class="span9">
+    <h2>{{ programa.nombre }}</h2>
+    <div id="slides">
+        <div class="slides_container"> 
+            {% for foto in programa.imagenprograma_set.all %}
+                <div>
+                    <img src="{{ MEDIA_URL }}{{ foto.imagen }}" />
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="row">
+      <div class="span3">
+        <div id="map_canvas" style="width: 220px; height: 220px"></div>
+        
+        <hr />
+
+        <dl class="dl-horizontal">
+            <dt>Precio:</dt>
+            <dd>{{ programa.costo }}</dd>
+            <dt>Duración:</dt>
+            <dd>{{ programa.duracion }} horas</dd>
+        </dl>
+
+        <hr />
+
+        <div class="fb-like" data-href="http://espiante.co" data-send="true" data-layout="button_count" data-width="320" data-show-faces="false" data-colorscheme="dark" data-font="verdana"></div>
+        <a href="https://twitter.com/share" class="twitter-share-button" data-lang="en">Tweet</a>
+      </div>
+      <div class="span6">
+        <p>{{ programa.descripcion }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="span3">
+    <h2>{{ programa.guia.nombre }}</h2>
+    <img class="thumbnail" src="{{ STATIC_URL }}img/nico-bases.jpeg" />
+
+    <hr />
+
+    <h3>Bio</h3>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi est felis, volutpat at tristique et, varius ac augue. Quisque accumsan dignissim varius...</p>
+
+    <hr />
+
+    <a href="#">ver programas</a>
+  </div>
+</div>
+<!-- div id="programa_container">
     <div id="detalle">
         {{ programa.nombre }}
         {{ programa.descripcion }}
@@ -44,5 +99,5 @@ function initialize(latitud, longitud) {
     </div>
 
     <div id="map_canvas" style="width: 300px; height:300px"></div>
-</div>
+</div -->
 {% endblock %}
