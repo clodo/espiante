@@ -1,9 +1,20 @@
 {% extends "base.html" %}
 {% block body %}
-<h2>Programas</h2>
-<ul>
+
+<h2 style="margin-top: 20px;">Programas</h2>
+
 {% for programa in programas %}
-	<li>{{ programa.nombre }}</li>
+	<div class="row">
+		<div class="span3">
+            {% for foto in programa.imagenprograma_set.all|slice:":1" %}
+            	<img class="thumbnail" src="{{ MEDIA_URL }}{{ foto.imagen }}" />
+            {% endfor %}
+		</div>
+		<div class="span9">
+			{{ programa.nombre }}
+		</div>
+	</div>
+	<br />
 {% endfor %}
-</ul>
+
 {% endblock %}
