@@ -24,34 +24,15 @@ function initialize(latitud, longitud) {
 
         google.maps.event.addListener(programa_marker, "dragend", function(event) {
             var point = programa_marker.getPosition();
-            $('#lat').val(point.lat());
-            $('#lon').val(point.lng());
+            $('#id_lat').val(point.lat());
+            $('#id_lon').val(point.lng());
         });
 }
 </script>
 <form action="" method="post" id="programa_form">
     {% csrf_token %}
-    <input type="text" class="textfield" name="nombre" id="nombre" value="{{ nombre }}" size="22" tabindex="1" /><br />
-    {{ form.nombre.errors }}
-
-    <input type="text" name="duracion" id="duracion" value="{{ duracion }}" size="22" tabindex="2" /><br />
-    {{ form.duracion.errors }}
-
-    <input type="text" name="costo" id="costo" value="{{ costo }}" size="22" tabindex="2" /><br />
-    {{ form.costo.errors }}
-
-    <input type="text" name="lugar" id="lugar" value="{{ lugar }}" size="22" tabindex="2" /><br />
-    {{ form.lugar.errors }}
-
-    <input type="hidden" name="lon" id="lon" value="{{ lon }}" />
-    <input type="hidden" name="lat" id="lat" value="{{ lat }}" />
-    {{ form.lon.errors }}
-
-    <textarea class="textarea" name="descripcion" id="descripcion" cols="50" rows="8" tabindex="4"></textarea><br />
-    {{ form.descripcion.errors }}
-
+    {{ form }}
     <input type="submit" name="submit" id="submitleft" class="button" value="Enviar" tabindex="5" />
-</form>
-
     <div id="map_canvas" style="width: 300px; height:300px"></div>
+</form>
 {% endblock %}

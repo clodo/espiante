@@ -41,8 +41,8 @@ class Programa(models.Model):
     dia = models.CharField("Día", max_length=1, choices=DIA, default=DIA[0])
     ranking = models.IntegerField("Ranking", default=0)
     lugar = models.CharField("Lugar", max_length=100)
-    lat = models.CharField("Latitud", max_length=16)
-    lon = models.CharField("Longitud", max_length=16)
+    lat = models.CharField("Latitud", max_length=50)
+    lon = models.CharField("Longitud", max_length=50)
 
     perfil = models.ForeignKey(Perfil)
     guia = models.ForeignKey(Guia)

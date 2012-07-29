@@ -24,7 +24,7 @@ def redactar(request, programa_id=None):
     if request.method == "POST":
         form = ProgramaForm(request.POST)
         if form.is_valid():
-            content = form.cleaned_data
+            form.save()
             return HttpResponseRedirect('/gracias/')
     else:
         form = ProgramaForm()
