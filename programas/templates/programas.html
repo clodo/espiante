@@ -1,20 +1,62 @@
 {% extends "base.html" %}
 {% block body %}
 
-<h2 style="margin-top: 20px;">Programas</h2>
+<script type="text/javascript">
+$(function() {
+    $("#slides").slides({
+        effect: 'slide, fade',
+        play: 5000,
+        generateNextPrev: false,
+        pagination: false,
+        generatePagination: false
+    });
 
-{% for programa in programas %}
-	<div class="row">
-		<div class="span3">
-            {% for foto in programa.imagenprograma_set.all|slice:":1" %}
-            	<img class="thumbnail" src="{{ MEDIA_URL }}{{ foto.imagen }}" />
-            {% endfor %}
-		</div>
-		<div class="span9">
-			{{ programa.nombre }}
-		</div>
+    initialize(-34.635786, -58.365104);
+
+});
+
+function initialize(latitud, longitud) {
+        var mapOptions = {
+            zoom: 8,
+            center: new google.maps.LatLng(latitud, longitud),
+            mapTypeId: google.maps.MapTypeId.ROADMAP }
+        var map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+        var image = '{{ STATIC_URL }}img/logo.png';
+        {% for programa in programas %}
+        var myLatLng = new google.maps.LatLng({{programa.lat}}, {{programa.lon}});
+        var beachMarker_{{programa.id}} = new google.maps.Marker({
+                            position: myLatLng,
+                            map: map,
+                            icon: image
+                            });
+       {% endfor %}
+}
+</script>
+
+<div class="row" style="margin-top: 20px;">
+	<div class="span3">
+        <img class="thumbnail" src="{{ STATIC_URL }}img/argento.jpg" />
+
+        <hr />
+
+		<div id="map_canvas" style="width: 220px; height: 220px"></div>
 	</div>
-	<br />
-{% endfor %}
-
+	<div class="span9">
+		{% for programa in programas %}
+		<div class="row">
+			<div class="span7">
+				<h3>{{ programa.nombre }}</h3>
+				<p>{{ programa.descripcion|truncatechars:200 }}</p>
+				<p>Precio: {{ programa.costo }} $ | Duración: {{ programa.duracion }} horas</p>
+			</div>
+			<div class="span2">
+		        {% for foto in programa.imagenprograma_set.all|slice:":1" %}
+		        	<a href="{% url 'ver_programa' programa_id=programa.id %}"><img class="thumbnail" src="{{ MEDIA_URL }}{{ foto.imagen }}" /></a>
+		        {% endfor %}
+			</div>
+		</div>
+		<br />
+		{% endfor %}
+	</div>
+</div>
 {% endblock %}

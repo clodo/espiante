@@ -46,8 +46,7 @@ class ProgramasListView(ListView):
         return Programa.objects.filter(perfil__slug=perfil_slug)
 
 
-    #def get_context_data(self, **kwargs):
-    #    context = super(ProgramasListView, self).get_context_data(**kwargs)
-    #    context['lugar'] = Marca.objects.all()
-    #    context['perfil'] = Marca.objects.all()
-    #    return context
+    def get_context_data(self, **kwargs):
+        context = super(ProgramasListView, self).get_context_data(**kwargs)
+        context['perfil'] = self.kwargs['perfil']
+        return context
