@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block body %}
+<h2>Programas</h2>
+<ul>
+{% for programa in programas %}
+	<li>{{ programa.nombre }}</li>
+{% endfor %}
+</ul>
+{% endblock %}

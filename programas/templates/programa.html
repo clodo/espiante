@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<script type="text/javascript">
+$(function() {
+    $("#slides").slides({
+        effect: 'slide, fade',
+        play: 5000
+    });
+
+    initialize({{ programa.lat }}, {{ programa.lon }});
+});
+
+function initialize(latitud, longitud) {
+        var mapOptions = {
+            zoom: 16,
+            center: new google.maps.LatLng(latitud, longitud),
+            mapTypeId: google.maps.MapTypeId.ROADMAP }
+        var map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+        var image = '{{ STATIC_URL }}img/logo.png';
+        var myLatLng = new google.maps.LatLng(latitud, longitud);
+        var beachMarker = new google.maps.Marker({
+                            position: myLatLng,
+                            map: map,
+                            icon: image
+                            });
+}
+</script>
+<div id="programa_container">
+    <div id="detalle">
+        {{ programa.nombre }}
+        {{ programa.descripcion }}
+    </div>
+
+    <div id="slides">
+        <div class="slides_container"> 
+            {% for foto in programa.imagenprograma_set.all %}
+                <div>
+                    <img src="{{ MEDIA_URL }}{{ foto.imagen }}" />
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div id="map_canvas" style="width: 300px; height:300px"></div>
+</div>
+{% endblock %}

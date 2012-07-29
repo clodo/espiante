@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<script type="text/javascript">
+pais = new google.maps.LatLng (-7.710992, -65.742188);
+zoom = 2;
+
+
+var myOptions = {
+    zoom: zoom,
+    center: pais,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+}
+
+map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+$.ajax({
+    contentType: "application/json;charset=utf-8",
+    url: "historias",
+    dataType: "json",
+    success: function (dataJSON) {
+
+    jQuery.each(dataJSON, function() {   
+    var marker = new google.maps.Marker (
+        { position: new google.maps.LatLng (this.lat, this.long), 
+          map:map,  
+          icon: 'https://www.appsnatura.net/natura_amo/web/images/icomaps.png'});
+
+    markers.push(marker);
+    historias[marker.__gm_id] = this;
+
+    })
+
+    addEventListeners();
+    }
+
+</script>
+<form action="" method="post" id="programa_form">
+    {% csrf_token %}
+    <input type="text" class="textfield" name="nombre" id="nombre" value="{{ nombre }}" size="22" tabindex="1" /><br />
+    {{ form.nombre.errors }}
+
+    <input type="text" name="duracion" id="duracion" value="{{ duracion }}" size="22" tabindex="2" /><br />
+    {{ form.duracion.errors }}
+
+    <input type="text" name="costo" id="costo" value="{{ costo }}" size="22" tabindex="2" /><br />
+    {{ form.costo.errors }}
+
+    <input type="text" name="lugar" id="lugar" value="{{ lugar }}" size="22" tabindex="2" /><br />
+    {{ form.lugar.errors }}
+
+    <input type="hidden" name="lon" id="lon" value="{{ lon }}" />
+    <input type="hidden" name="lat" id="lat" value="{{ lat }}" />
+    {{ form.lon.errors }}
+
+    <textarea class="textarea" name="descripcion" id="descripcion" cols="50" rows="8" tabindex="4"></textarea><br />
+    {{ form.descripcion.errors }}
+
+    <input type="submit" name="submit" id="submitleft" class="button" value="Enviar" tabindex="5" />
+</form>
+{% endblock %}

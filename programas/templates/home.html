@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="row">
+  <div class="span12">
+    <div class="hero-unit" id="search-container" style="margin-top: 40px;">
+      <div id="search-lugar">
+        <div align="center">
+          <h2>¿Qué querés hacer?</h2>
+          <form method="get" action="#" class="form-inline">
+            <input name="lugar" class="span4 search-query" type="text" placeholder="Comer, Bailar, Pasear">
+            <input type="submit" class="btn btn-primary" value="Buscar" id="search-button" />
+          </form>
+        </div>
+      </div>
+
+      <div id="search-perfil" style="display: none;">
+        <div align="center">
+          <h2>Elegí un perfil</h2>
+          <ul class="thumbnails" style="text-align: center;">
+            {% for perfil in perfiles %}
+            <li class="">
+              <a class="thumbnail" href="{% url 'programas' perfil=perfil.slug lugar='zaraza' %}">
+                <img alt="{{ perfil.nombre }}" src="http://placehold.it/160x120">
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span12">
+    <h2>Programas destacados</h2>
+    <ul class="thumbnails">
+      <li class="span3">
+        <div class="thumbnail">
+          <a href="#">
+            <img alt="" src="{{ STATIC_URL }}img/thumb_bombonera.jpg">
+          </a>
+          <div class="caption">
+            <h5>Bombonera tour</h5>
+          </div>
+        </div>
+      </li>
+      <li class="span3">
+        <div class="thumbnail">
+          <a href="#">
+            <img alt="" src="{{ STATIC_URL }}img/thumb_desnivel.jpg">
+          </a>
+          <div class="caption">
+            <h5>Bodegon de San telmo</h5>
+          </div>
+        </div>
+      </li>
+      <li class="span3">
+        <div class="thumbnail">
+          <a href="#">
+            <img alt="" src="{{ STATIC_URL }}img/thumb_cuartetas.jpg">
+          </a>
+          <div class="caption">
+            <h5>Pizzerías famosas</h5>
+          </div>
+        </div>
+      </li>
+      <li class="span3">
+        <div class="thumbnail">
+          <a href="#">
+            <img alt="" src="{{ STATIC_URL }}img/thumb_ff.jpg">
+          </a>
+          <div class="caption">
+            <h5>Orquésta Fernández Fierro</h5>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+{% endblock %}
+
